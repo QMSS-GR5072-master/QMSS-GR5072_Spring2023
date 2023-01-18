@@ -1,0 +1,104 @@
+########################## Git Command-Line Notes ############################################
+#
+# This text file contains common command line git commands! Useful to refer back to
+# if you intend to use git from the commandl line
+#
+##############################################################################################
+
+# Check which files are being tracked and files which have been modified since the last changes
+git status
+
+# Compare changes
+git diff filename
+
+# Compare all changes
+git diff 
+
+# Compare all changes in a directory
+git diff directory
+
+# Add file to staging area - before commit. git does not track files by default
+git add filename
+
+# Add all files to git --- Note: This is not generally recommended. Use caution
+git add .
+
+# Compare files in staging area -- HEAD stands for most recent commit, -r means compare versions
+git diff -r HEAD
+
+# Compare particular file
+git diff -r HEAD path/to/file
+
+# commit changes in staging area  -- we can add comments to commit with -m " "
+git commit
+git commit -m "Program appears to have become self-aware."
+
+# Fix typo in commit message
+--amend
+
+# Track commit history (git creates pages to view, space bar goes to next, 'q' to quit)
+git log
+
+# Track commit history for particular file/directory
+git log path
+
+# Show details about a particular commit, using the commit's hash (Hit q to exit commit log, space bar to page down through output)
+git show HASHNUM
+git show 
+
+# Show the most recent commit 
+git show HEAD
+
+# Show the 2nd-most recent and 3rd-most recent commits
+git show HEAD~1
+git show HEAD~2
+
+# List every change made by team members to each line of a file 
+git annotate report.txt
+
+# For a particular commit, see the changes that were made
+git show HASHNUM
+
+# See differences in between two commits
+git diff ID1..ID2
+get diff HEAD HEAD~2
+
+# Show a list of files that are in the repo, but not currently tracked by git
+git clean -n
+
+# Delete the files in the repo which are not tracked by git
+git clean -f
+
+# See git's setting
+git config --list
+git config --list --system
+git config --list --global
+git config --list --local
+
+# Change name and email address in git settings. Most other settings you do not want to change
+## the settings for your name and email are user.name and user.email respectively
+git config --global setting value
+git config --global user.email nla2121@tc.columbia.edu
+
+
+#########################################################################################
+#
+# These commands are for your terminal program, and are not git specific. They may be different if you use a Mac
+#
+
+# Change directory
+cd PATH
+
+# See list of files in current directory
+ls
+
+#########################################################################################
+# nano - Unix text editor
+
+# Create new file
+nano names.txt
+
+Ctrl-K: delete a line.
+Ctrl-U: un-delete a line.
+Ctrl-O: save the file ('O' stands for 'output').
+Ctrl-X: exit the editor.
