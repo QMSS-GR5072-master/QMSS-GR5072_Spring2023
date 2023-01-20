@@ -18,9 +18,9 @@ git diff
 git diff directory
 
 # Add file to staging area - before commit. git does not track files by default
-git add filename
+git add path/filename
 
-# Add all files to git --- Note: This is not generally recommended. Use caution
+# Add all files to staging area --- Note: This is not generally recommended. Use caution
 git add .
 
 # Compare files in staging area -- HEAD stands for most recent commit, -r means compare versions
@@ -29,18 +29,38 @@ git diff -r HEAD
 # Compare particular file
 git diff -r HEAD path/to/file
 
+# Undo unstaged changes to file -- Note: Changes are permanent, so use carefully!
+git checkout -- path/filename
+
+# Remove all files in a directory from staging (leaving off path resets all files in all directories which have been staged)
+git reset HEAD path
+
+# Undo changes to a file which is already staged
+git reset HEAD path/to/file
+git checkout -- path/to/file
+
+# Unstage and restore previous versions for all files
+git reset
+git checkout -- .
+
+# Restore previous version of a file which was saved as a commit. Note: When you restore a previous version, you have to commit it again
+git checkout HASNUM path/file 
+
 # commit changes in staging area  -- we can add comments to commit with -m " "
 git commit
 git commit -m "Program appears to have become self-aware."
 
-# Fix typo in commit message
---amend
+# Amend commit message
+git commit --amend -m "new message"
 
 # Track commit history (git creates pages to view, space bar goes to next, 'q' to quit)
 git log
 
 # Track commit history for particular file/directory
 git log path
+
+# Show only the 3 most recent commits
+git log -3 report.txt
 
 # Show details about a particular commit, using the commit's hash (Hit q to exit commit log, space bar to page down through output)
 git show HASHNUM
@@ -68,6 +88,19 @@ git clean -n
 
 # Delete the files in the repo which are not tracked by git
 git clean -f
+
+# Remove a file (need to commit this removal)
+git rm path/file
+git commit -m "message"
+
+# Check branches in repo (All of your changes must be committed)
+git branch
+
+# See differences between two branches
+git diff branch-1..branch-2
+
+# Change branches
+git checkout 
 
 # See git's setting
 git config --list
