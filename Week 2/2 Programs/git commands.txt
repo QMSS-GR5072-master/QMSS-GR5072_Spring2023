@@ -5,6 +5,9 @@
 #
 ##############################################################################################
 
+
+## =================== GIT ESSENTIAL COMMANDS ==============================
+
 # Check which files are being tracked and files which have been modified since the last changes
 git status
 
@@ -83,6 +86,9 @@ git show HASHNUM
 git diff ID1..ID2
 get diff HEAD HEAD~2
 
+# Delete a file
+git rm report.txt
+
 # Show a list of files that are in the repo, but not currently tracked by git
 git clean -n
 
@@ -93,6 +99,47 @@ git clean -f
 git rm path/file
 git commit -m "message"
 
+# Pulling changes (you can leave off the name of the branch)
+git pull remote branch
+git pull origin master
+git pull origin
+
+# Pushing changes
+git push remote-name branch-name
+
+
+
+## =================== CREATING YOUR GIT REPO ==============================
+
+# Create a new repo
+git init project-name
+
+# Convert existing project into a git repo
+git init /path
+
+# Clone repo from GitHub
+git clone URL
+
+# Clone repo from local system
+git clone /path_of_repo_you_are_cloning /path_where_you_want_new_repo
+
+# See the remote of a clone repo
+git remote
+
+# See the remote of a clone repo - verbose
+git remote -v
+
+# When you clone, git automatically creates a remote called origin pointing to the original repository
+git remote add remote-name URL
+
+# Remove remote
+git remote rm remote-name
+
+
+
+## =================== BRANCHING ==============================
+
+
 # Check branches in repo (All of your changes must be committed)
 git branch
 
@@ -101,6 +148,19 @@ git diff branch-1..branch-2
 
 # Change branches
 git checkout 
+
+# Create branch and switch to it
+git checkout -b branch-name
+
+# Merge branches: Source is the parent child, destination is the parent
+git merge source destination
+
+# See the merge conflict (must be run after trying to merge)
+git status
+
+
+
+## =================== SETTINGS ==============================
 
 # See git's setting
 git config --list
@@ -129,7 +189,10 @@ ls
 # nano - Unix text editor
 
 # Create new file
-nano names.txt
+nano file.ext
+
+# Open file
+nano file.ext
 
 Ctrl-K: delete a line.
 Ctrl-U: un-delete a line.
