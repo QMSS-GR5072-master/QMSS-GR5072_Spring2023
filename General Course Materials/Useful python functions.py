@@ -3,9 +3,28 @@
 This is file shares useful python functions and other notes for quick reference
 """
 
+# Python: basic operators
+a + b      # addition
+a - b      # subtraction
+a * b      # multiplication
+a / b      # division
+a ** b     # raise a to b
+a // b     # floor division (keep integer part only)
+a % b      # keep remainder only
+a & b      # for booleans, True if a and b
+a | b      # for booleans, True if a or b
+a == b     # True if a equals b
+a != b     # True if a is not equal to b
+a <= b     # True if a is less than or equal to b
+a is b     # True if a and b reference the same Python object
+a is not b # True if a and b refernce different Python objects
+
 # Get more information about a function with ?, or wrapping it in help()
 ?pow
 help(pow)
+
+# Get help with method
+help(np.ndarray.flatten) # must inlcude object type
 
 # Check data type
 type(x)
@@ -16,11 +35,10 @@ x = float(3.2)
 x = str("Test string")
 x = int(4.9)  # does not round up!
 
-# Install package - using pip (you might have to first install pip yo install other libraries)
-pip3 install numpy
 
 
-""" Method/Functions for list types  """ # =============================================================================
+
+""" list object methods/functions and attributes """ # =============================================================================
 
 # Concatenate two lists (can be strings, or numbers)
 list3 = list1 + list2
@@ -41,10 +59,19 @@ x.remove("hello")
 x.reverse()
 
 
-""" Method/Functions for string types  """ # =============================================================================
+""" string object method/functions and attributes """ # =============================================================================
+
+
+###### Methods / Functions ###### =========================
 
 # Capitalize first word only
 x.capitalize()
+
+# Make every letter upper case
+x.upper()
+
+# Make every letter lower case
+x.lower()
 
 # Replace strings
 x.replace("z", "sa") # replace z with sa
@@ -56,31 +83,133 @@ x.index("a")
 avg = np.mean(np_baseball[:,0])
 print("Average: " + str(avg))
 
-""" Importing Python Libraries or functions from libraries """ # =============================================================================
-
-# Import radians function of math package
-from math import radians
 
 
 
-""" numpy objects/methods/functions  """ # =============================================================================
 
-# Create a np.array. A np.array can only contain one type of data, unlike a list which can 
-# contain many different data types. np.array are really designed for perofrming
-# element wise mathematical operations
+""" numpy objects/methods/functions and attributes  """ # =============================================================================
+
+# A np.array can only contain one type of data, unlike a list which can 
+# contain many different data types. This helps increase speen when perofrming
+# element wise mathematical operations. np data types include:
+# np.int64
+# np.int32
+# np.int16
+# np.int8
+# np.float64
+# np.float32
+# np.bool_
+# np.datetime64
+
+
+###### Creating and Slicing Array ###### =========================
+
+# Create a np.array
 x = np.array([1, 2, 3])
+x = np.array([1, 2, 3], dtype = np.float32) # you can optionally specify dtype
 
-# slice array based on logical statement
+# Slice 2D array, getting the first row only
+array[0, :]
+
+# Slice 2D array, getting only even indexes for indexs 50-100 and the 3rd col
+array[50:101:2, 2]
+
+# Slice array based on logical statement (fancy indexing)
 bmi[ bmi > 23 ]
+bmi[ bmi[:,2] > 23, : ] # Slicing 2D arrays requires to to specify row and col indicies correctly
+
+# Save numpy array
+with open("file_name.npy", "wb") as f: # wb stands for "write binary"
+    np.save(f, obj_you_are_saving)
+
+# Load numpy array
+with open("file.npy", "rb") as f: # rb stands for "read binary"
+    array = np.load(f)
+
+
+
+###### Attributes ###### =========================
+
+# See data type
+array.dtype
 
 # See dimensions of np.array
 np_array.shape
 
-# compute mean, median, sd
+
+
+###### Methods / Functions ###### =========================
+
+# See data type
+array.dtype
+
+# Type conversion (Hierarchy: string > float > integer > boolean)
+array.astype(np.int32)
+
+# Create a sequence 1 to 12
+np.arange(1,13)
+
+# Sort data
+np.sort(array)
+
+# Flattens array to be 1-D only
+array.flatten()
+
+# Change dimensions of array
+array.reshape()
+
+# Return array of only unique elements
+np.unique(array)
+
+# Transpose array
+np.transpose(array)
+
+# Bind columns together
+np.columnstack((col1, col2))
+
+# Create 3X2 array of all zeros
+np.zeros((3,2), dtype = np.int8) # Use smaller bit size for an array of zeros
+
+# Create array of indicies from a 2D array based on logical statement
+row_ind, col_ind = np.where(array <= 3)  # 'unpack' the results as a tuple
+
+# Replace values with X if logical statement is True (R's ifelse function)
+np.where(array == 0, "", array) # third argument is how to change element if it does not meet condition
+
+# Concatenating rows - stack two arrays (Note: Use .reshape method if dims are not compatible)
+np.concatenate((array1, array2))
+np.concatenate((array1, array2), axis = 0)
+
+# Concatenating columns - adding extra cols (Note: Use .reshape method if dims are not compatible)
+np.concatenate((array1, array2), axis = 1)
+
+# Delete values from object
+np.delete(array, slice_index, axis=0)
+
+# Compute descriptive info like the mean, median, sd
 array.mean()
 np.mean(array)
+array.mean()
 np.median(array)
-np.std(array)
+array.mode()
+array.std()
+array.var()
+array.sum()         # Sum entire array if no axis is specified
+array.sum(axis = 0) # Sum across rows
+array.sum(axis = 1) # Sum across cols
+array.sum(axis = 1, keepdims=True) # Sum cols, keeping dimensionality the same
+array.min()
+array.max()
+array.cumsum()
+array.quantile()
+
+# Compute custom fuction and call it as a method using .agg
+def pct30(column):
+    return column.quantile(0.3)
+df["col"].agg(pct30)
+
+# Pass multiple functions as methods
+df["col"].agg([pct30, pct40])
 
 # Compute correlation between two columns
 corr = np.corrcoef(np_baseball[:,0], np_baseball[:,1])
@@ -88,31 +217,117 @@ corr = np.corrcoef(np_baseball[:,0], np_baseball[:,1])
 # simulate data from a normal distribution
 array1 = np.random.normal(1.75, 0.20, 500)  #(mean, sd, n)
 
-# bind columns together
-np.columnstack((col1, col2))
+# Vectorize a base Python function to apply to a np.array object
+upper_funct = np.vectorize(str.upper)
+upper_case = upper_funct()
 
 
 
-""" pandas objects/methods/functions  """ # =============================================================================
+""" pandas objects/methods/functions and attributes  """ # =============================================================================
+
+# =============================================================================
+# pandas has two essential data types: 
+#   (1) pd.Series which is like a 1-D numpy array
+#   (2) pd.DataFrame which is essentially a 2-D numpy array for working with tabular data
+# 
+# =============================================================================
 
 # Write csv. This only works if your writing a pd.DataFrame object!
 df.to_csv("filename.csv")
 
-# Select only numeric columbns
-df1 = df.select_dtypes(include=np.number)
-df1 = df.select_dtypes(include=np.'int64')
-df1 = df.select_dtypes(include=np.'datetime64[ns]')
+# Look at first 5 rows of data
+df.head()
 
-# Look at columns
-df1.columns
+# Look at index (row) names
+df.index
+
+# Look at column names
+df.columns
+
+# Look at single column
+df["col_name"]
+
+# Look at multiple columns
+df[["col_name", "col_names"]]
+cols = ["col_name", "col_names"]
+df[cols]
 
 # More neatly view of col names
 for col in df1.columns:
     print(col)
 
-# =============================================================================
+# Look at columns and their data types
+df.info()
 
-""" Useful shortcuts """
+# Generate basic descriptive statistics
+df.describe()
+
+# Look at data values, which are stored as a 2-D
+df.values
+
+# Look at dimensions of DF
+df.shape
+
+# Sort data  
+df.sort_values("col_name", ascending = False)
+
+# Sort data by multiple valoues 
+df.sort_values(["col_name", "col_name2"], ascending = [True, False])
+
+# Add new column
+df["new_col"] = x * y
+
+# Slice DF based on logical conditions
+df[df["col_name"] > 50]
+
+# Slice DF based on logical conditions - AND logic
+df[ (df["col_name"] == "value1") & (df["col_name2"] == "value2") ]
+
+# Slice DF based on logical conditions - AND logic
+colors = ["brown", "black", "tan"]
+condition = dogs["color"].isin(colors)
+dogs[condition]
+
+# Drop duplicates
+df.drop_duplicates(subset=["name", "breed"])
+
+# Select only numeric columbns
+df = df.select_dtypes(include=np.number)
+df = df.select_dtypes(include=np.'int64')
+df = df.select_dtypes(include=np.'datetime64[ns]')
+
+# Check freq table, placing largest groups at top
+df["breed"].value_counts(sort=True)
+
+# Check proportion table, placing largest groups at top
+df["breed"].value_counts(normalize=True)
+
+# Grouped summaries
+df.groupby("grouping_var")["var"].mean()
+df.groupby("grouping_var")["var"].agg([min, np.mean, max, sum])
+df.groupby("grouping_var")[["var1", "var2"]].agg([min, np.mean, max, sum])
+df.groupby(["grouping_var1", "grouping_var2"])["var"].mean()
+
+# Pivot table
+df.pivot_table(values="var", index="groupping_var")
+df.pivot_table(values="var", index="groupping_var", aggfunc=[np.mean, np.median])
+df.pivot_table(values="var", index="groupping_var1", columns="groupping_var2")
+df.pivot_table(values="var", index="groupping_var1", columns="groupping_var2", fill_value=0)
+df.pivot_table(values="var", index="groupping_var1", columns="groupping_var2", fill_value=0, margins=True)
+
+
+""" Interacting with other Python libraries """ # =============================================================================
+
+# Install package - using pip (you might have to first install pip yo install other libraries)
+pip3 install numpy
+
+# Import radians function of math package
+from math import radians
+
+
+
+""" Useful shortcuts """ # =============================================================================
+
 #
 # Single line comment:        ctrl + 1    
 # Multi-line comment:         ctrl + 4
