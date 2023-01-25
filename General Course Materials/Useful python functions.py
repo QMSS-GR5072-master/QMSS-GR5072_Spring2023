@@ -241,6 +241,14 @@ df.head()
 # Look at index (row) names
 df.index
 
+# Change a column in your dataset to be the index
+df1 = df.set_index("name")
+df1 = df.set_index(["first_name", "last_name"])
+
+# Reset the indexes that you created - so they become a column
+df.reset_index()
+df.reset_index(drop=True) # Just to drop the index and not make it a column
+
 # Look at column names
 df.columns
 
@@ -271,6 +279,9 @@ df.shape
 # Sort data  
 df.sort_values("col_name", ascending = False)
 
+# Sort data by index value
+df.sort_index(level = ["name1", "name2"], ascending=[True, False])
+
 # Sort data by multiple valoues 
 df.sort_values(["col_name", "col_name2"], ascending = [True, False])
 
@@ -279,6 +290,21 @@ df["new_col"] = x * y
 
 # Slice DF based on logical conditions
 df[df["col_name"] > 50]
+
+# Slice DF based on index values (index must be sorted!)
+df.sort_index().loc[["name1", "name2"]]
+df.loc["2014-08-25":"2016-09-16"]  # Slice date range
+df.loc["2014":"2016"]  # Slice by partial date range
+df.loc[[("name1", "Group1"), ("name2", "Group2") ]]  # Subset based on intersection of two vars
+
+# Slice DF based on range of index values
+df.loc[("Labrador", "Brown"):("Schnauzer", "Grey")]
+
+# Slice columns (keep all rows)
+df.loc[:, "name":"height"]
+
+# Slide DF using integers
+df.iloc[1:3, 3:6]
 
 # Slice DF based on logical conditions - AND logic
 df[ (df["col_name"] == "value1") & (df["col_name2"] == "value2") ]
